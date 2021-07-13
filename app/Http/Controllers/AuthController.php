@@ -7,6 +7,7 @@ use Illuminate\Support\Facades\Auth;
 use Hash;
 use Session;
 use App\Models\User;
+use App\Models\Login;
 
 class AuthController extends Controller
 {
@@ -18,6 +19,10 @@ class AuthController extends Controller
         $fieldType = filter_var($request->name, FILTER_VALIDATE_EMAIL) ? 'email' : 'name';
         if (Auth::attempt([$fieldType => $request->name, 'password' => $request->password])) {
             $request->session()->regenerate();
+            $new_login_user = new Login();
+            $new_login_user->id_user = Auth::id();
+            $new_login_user->date_login = date('Y-m-d h:i:s');
+            $new_login_user->save();
             return redirect()->intended('home');
         } else {
         	return redirect('login')
@@ -27,6 +32,12 @@ class AuthController extends Controller
 
     public function register(Request $request) {
     	#return view('auth.register');
+        $user_by_name = User::where('name', $request->username)->first();
+        $user_by_email = User::where('email', $request->email)->first();
+        if ($user_by_name || $user_by_email) {
+            return redirect('register')
+                ->withError('El usuario o email no está disponible');
+        }
     	$user = User::create([
     		'full_name' => $request->full_name,
             'name' => $request->username,
@@ -36,6 +47,10 @@ class AuthController extends Controller
         $credentials = ['name' => $request->username, 'password' => $request->password];
         if (Auth::attempt($credentials)) {
             $request->session()->regenerate();
+            $new_login_user = new Login();
+            $new_login_user->id_user = Auth::id();
+            $new_login_user->date_login = date('Y-m-d h:i:s');
+            $new_login_user->save();
             return redirect()->intended('home');
         }
     }

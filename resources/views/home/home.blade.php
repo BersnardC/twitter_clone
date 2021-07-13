@@ -1,17 +1,5 @@
 @extends('layouts.index')
 @section('content')
-	<!--a href="{{url('logout')}}">Cerrar Sesión</a>
-	<form action="" id="send_tweets">
-		@csrf
-		<input type="text" placeholder="¿Qué está pasando?" maxlength="250" name="content_tweet" id="content_tweet">
-		<button id="save_tweet">Twittear</button>
-	</form>
-	<h1>Listado de tweets {{Route::CurrentRouteName()}}</h1>
-	<div id="lists_tweets">
-		@foreach($tweets as $tweet)
-			<li>{{$tweet->content}}</li>
-		@endforeach()
-	</div-->
 	<div class="row">
 		<div class="col-first sidebard-left">
 			<div class="brand">
@@ -64,6 +52,12 @@
 		        	<a href="" class="{{Route::CurrentRouteName() == '' ? 'active' : ''}}">
 						<i class="fas fa-ellipsis-h"></i>
 				        <h2>Mas opciones</h2>
+		        	</a>
+		      	</div>
+		      	<div class="menu-item">
+		        	<a href="javascript:open_modal('modal_general');">
+						<i class="fas fa-clipboard-list"></i>
+				        <h2>Historial de login</h2>
 		        	</a>
 		      	</div>
 		      	<div class="menu-item">
@@ -195,9 +189,22 @@
 				</div>
 			</div>
 		</div>
+		<div class="modal" id="modal_general" style="display: none;">
+			<div class="modal-content">
+				<div class="modal-header">
+					<a href="javascript:close_modal_general();"><i class="fas fa-times"></i></a>
+				</div>
+				<div class="modal-body">	                        				
+					<h1 style="text-align: center;">Mi historial de Sesión</h1>
+					@foreach($logins as $login)
+						<h4>{{date('d-m-Y h:i:s', strtotime($login->date_login))}}</h4>
+					@endforeach()
+				</div>
+			</div>
+		</div>
 	</div>
 @endsection()
 
 @section('scripts')
-<script type="text/javascript" src="{{url('/main.js')}}"></script>
+	<script type="text/javascript" src="{{url('/main.js')}}"></script>
 @endsection

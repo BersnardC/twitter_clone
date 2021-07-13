@@ -5,7 +5,12 @@
 		<div class="brand">
 			<i class='fab fa-twitter'></i>
 		</div>
-		<form method="POST" action="{{url('register')}}" validate>
+		@if(Session::get('error'))
+			<div class="error">
+				{{Session::get('error')}}
+			</div>
+		@endif
+		<form method="POST" id="form-register" action="{{url('register')}}" validate>
 			<h1>Regístrate en Twitter</h1>
 			@csrf
 			<input type="text" name="full_name" id="full_name" placeholder="Nombre completo" class="form-input">
@@ -21,3 +26,6 @@
 	</div>
 </div>
 @endsection()
+@section('scripts')
+	<script type="text/javascript" src="{{url('/main.js')}}"></script>
+@endsection

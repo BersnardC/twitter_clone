@@ -7,6 +7,22 @@ $(() => {
 			save_post();
 		}
 	});
+	$('#form-login').on('submit', (event) => {
+		event.preventDefault();
+		if ($('#name').val().trim() == '' || $('#password').val().trim() == '') {
+			alert('Ingrese todos los datos');
+		} else {
+			$('#form-login')[0].submit();
+		}
+	})
+	$('#form-register').on('submit', (event) => {
+		event.preventDefault();
+		if ($('#full_name').val().trim() == '' || $('#username').val().trim() == ''|| $('#email').val().trim() == '' || $('#password').val().trim() == '') {
+			alert('Ingrese todos los datos');
+		} else {
+			$('#form-register')[0].submit();
+		}
+	})
 })
 function save_post() {
 	if ($('#content_tweet').val().trim() == '') {
@@ -51,4 +67,12 @@ function logout_confirm() {
 }
 function close_modal() {
 	$('#modal_tweet').fadeOut(200);
+}
+
+function open_modal(id) {
+	$('#' + id).fadeIn(200);
+}
+
+function close_modal_general() {
+	$('#modal_general').fadeOut(200);
 }

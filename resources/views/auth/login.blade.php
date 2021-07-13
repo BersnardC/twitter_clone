@@ -11,7 +11,7 @@
 				{{Session::get('error')}}
 			</div>
 		@endif
-		<form method="POST" action="{{url('login')}}" validate>
+		<form method="POST" id="form-login" action="{{url('login')}}" validate>
 			<h1>Inicio sesión en Twitter</h1>
 			@csrf
 			<input type="text" name="name" id="name" class="form-input" placeholder="Usuario o Email">
@@ -24,3 +24,6 @@
 	</div>
 </div>
 @endsection()
+@section('scripts')
+	<script type="text/javascript" src="{{url('/main.js')}}"></script>
+@endsection

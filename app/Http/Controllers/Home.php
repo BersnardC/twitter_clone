@@ -6,6 +6,7 @@ use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use App\Models\User;
 use App\Models\Tweet;
+use App\Models\Login;
 
 class Home extends Controller
 {
@@ -17,12 +18,14 @@ class Home extends Controller
      */
     public function __invoke(Request $request)
     {
+        $id_user = Auth::id();
         $tweets = Tweet::orderBy('id', 'DESC')->get();
-        $users = User::where('id', '!=', Auth::id())->get();
+        $users = User::where('id', '!=', $id_user)->get();
         foreach ($tweets as $tweet) {
             $tweet->user = User::where('id', $tweet->id_user)->first();
         }
-        return view('home.home', ['tweets' => $tweets, 'users' => $users]);
+        $logins = Login::where('id_user', $id_user)->orderBy('date_login', 'DESC')->get();
+        return view('home.home', ['tweets' => $tweets, 'users' => $users, 'logins' => $logins]);
     }
 
     public function save_post(Request $request) {
