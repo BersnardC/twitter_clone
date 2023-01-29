@@ -3,6 +3,7 @@
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\Home;
 use App\Http\Controllers\AuthController;
+use App\Http\Controllers\ContactController;
 
 /*
 |--------------------------------------------------------------------------
@@ -37,3 +38,11 @@ Route::get('/logout', [AuthController::class, 'logout'])->name('logout');
 
 Route::get('/home', Home::class)->middleware('auth')->name('home');
 Route::post('/home', [Home::class, 'save_post']);
+
+# Practicando Form validator request
+# https://learn2torials.com/a/laravel8-form-validation
+Route::get('/contact', [ContactController::class, 'create'])->name('contact-us');
+Route::post('/contact', [ContactController::class, 'store'])->name('contact-us');
+# https://learn2torials.com/a/laravel-form-validation
+Route::get('/contact2', [ContactController::class, 'create2'])->name('contact-us2');
+Route::post('/contact2', [ContactController::class, 'store2'])->name('contact-us2');

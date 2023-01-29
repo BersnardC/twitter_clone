@@ -56,6 +56,7 @@ class AuthController extends Controller
     }
 
     public function logout(Request $request) {
+        # Cierra sesión
     	Session::flush();
     	Auth::logout();
     	return redirect('login');
