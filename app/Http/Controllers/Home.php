@@ -44,4 +44,21 @@ class Home extends Controller
             return response()->json(['code' => 200, 'tweet' => $tweet, 'user' => $user, 'posting' => $posting]);
         }        
     }
+    # Functons API
+    public function get_tweets()
+    {
+        $tweets = Tweet::with('user')->orderBy('id', 'DESC')->get();
+        return response()->json(['twets' => $tweets]);
+    }
+
+    public function save_tweet(Request $request)
+    {
+        $id_user = 1;
+        $tweet = Tweet::create([
+            'content' => $request->content_tweet,
+            'id_user' => $id_user,
+            'created_at' => date('Y-m-d')
+        ]);
+        return response()->json(['code' => 200, 'tweet' => $tweet]);
+    }
 }
